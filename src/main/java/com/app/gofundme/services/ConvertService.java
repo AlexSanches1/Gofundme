@@ -1,7 +1,7 @@
 package com.app.gofundme.services;
 
 import com.app.gofundme.models.User;
-import com.app.gofundme.models.dto.UserDTO;
+import com.app.gofundme.models.dto.UserInfoDTO;
 import org.springframework.stereotype.Service;
 
 import org.apache.commons.codec.binary.Base64;
@@ -24,8 +24,8 @@ public class ConvertService {
         return id;
     }
 
-    public UserDTO userConvertToDTO(User user) {
-        UserDTO dto = new UserDTO();
+    public UserInfoDTO userConvertToDTO(User user) {
+        UserInfoDTO dto = new UserInfoDTO();
         dto.setEmail(user.getEmail());
         dto.setFirstName(user.getFirstName());
         dto.setId(user.getId());

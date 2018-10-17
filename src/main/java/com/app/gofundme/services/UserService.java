@@ -1,7 +1,7 @@
 package com.app.gofundme.services;
 
 import com.app.gofundme.models.User;
-import com.app.gofundme.models.dto.UserDTO;
+import com.app.gofundme.models.dto.UserInfoDTO;
 import com.app.gofundme.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,13 +9,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
 
-    @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
+
+    private ConvertService convertService;
 
     @Autowired
-    ConvertService convertService;
+    public UserService(UserRepository userRepository, ConvertService convertService) {
+        this.userRepository = userRepository;
+        this.convertService = convertService;
+    }
 
-    public UserDTO getUserId(Long id){
+    public UserInfoDTO getFullUserInfo(Long id) {
         User user = userRepository.getOne(id);
         return convertService.userConvertToDTO(user);
     }

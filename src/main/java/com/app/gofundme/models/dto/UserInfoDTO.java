@@ -3,11 +3,11 @@ package com.app.gofundme.models.dto;
 import lombok.Data;
 
 @Data
-public class UserDTO {
+public class UserInfoDTO {
 
     private Long id;
 
-    private  String email;
+    private String email;
 
     private String firstName;
 
