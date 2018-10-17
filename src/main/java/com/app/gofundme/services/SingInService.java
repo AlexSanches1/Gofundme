@@ -6,17 +6,20 @@ import com.app.gofundme.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
-public class RegistrationService {
+public class SingInService {
 
     private UserRepository userRepository;
+    private ConvertService convertService;
 
     @Autowired
-    public RegistrationService(UserRepository userRepository) {
+    public SingInService(UserRepository userRepository, ConvertService convertService) {
         this.userRepository = userRepository;
+        this.convertService = convertService;
     }
 
     public void registrationOfUser(String email, String firstName,
@@ -44,5 +47,22 @@ public class RegistrationService {
         Pattern p = Pattern.compile(ePattern);
         Matcher m = p.matcher(email);
         return m.matches();
+    }
+
+    public String login(String email, String password) {
+        String token = "";
+        if (!(userRepository.findUserByEmailAndPassword(email, password).isEmpty())) {
+            List<User> users = userRepository.findUserByEmailAndPassword(email, password);
+            User user = users.get(0);
+            if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
+                Long userId = user.getId();
+                token = convertService.convertToBase64(userId);
+            } else {
+                throw new BadRequestException("Email or password isn't validate");
+            }
+        }else {
+            throw new BadRequestException("Email or password isn't validate");
+        }
+        return token;
     }
 }
