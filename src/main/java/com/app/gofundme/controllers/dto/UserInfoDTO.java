@@ -1,4 +1,4 @@
-package com.app.gofundme.models.dto;
+package com.app.gofundme.controllers.dto;
 
 import lombok.Data;
 

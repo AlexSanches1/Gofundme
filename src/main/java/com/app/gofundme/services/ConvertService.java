@@ -1,25 +1,26 @@
 package com.app.gofundme.services;
 
+import com.app.gofundme.controllers.dto.TokenDTO;
 import com.app.gofundme.models.User;
-import com.app.gofundme.models.dto.UserInfoDTO;
+import com.app.gofundme.controllers.dto.UserInfoDTO;
 import org.springframework.stereotype.Service;
 
 import org.apache.commons.codec.binary.Base64;
 
-import java.util.Arrays;
-
 @Service
 public class ConvertService {
 
-    public String convertToBase64(Long id) {
+    public TokenDTO convertToBase64(Long id) {
+        TokenDTO dto = new TokenDTO();
         String idString = id.toString();
         byte[] token = Base64.encodeBase64(idString.getBytes());
-        return Arrays.toString(token);
+        dto.setToken(new String(token));
+        return dto;
     }
 
     public Long convertFromBase64(String token) {
         byte[] bytes = Base64.decodeBase64(token.getBytes());
-        String idString = Arrays.toString(bytes);
+        String idString = new String(bytes);
         Long id = Long.valueOf(idString);
         return id;
     }

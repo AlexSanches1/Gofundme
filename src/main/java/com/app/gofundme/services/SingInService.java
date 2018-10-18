@@ -1,5 +1,8 @@
 package com.app.gofundme.services;
 
+import com.app.gofundme.controllers.dto.TokenDTO;
+import com.app.gofundme.controllers.request_dto.RequestLoginDTO;
+import com.app.gofundme.controllers.request_dto.RequestRegistrDTO;
 import com.app.gofundme.exceptions.BadRequestException;
 import com.app.gofundme.models.User;
 import com.app.gofundme.repositories.UserRepository;
@@ -22,16 +25,15 @@ public class SingInService {
         this.convertService = convertService;
     }
 
-    public void registrationOfUser(String email, String firstName,
-                                   String secondName, String firstPass, String secondPass) {
-        if (firstPass.equals(secondPass)) {
+    public void registrationOfUser(RequestRegistrDTO registrDTO) {
+        if (registrDTO.getFirstPassword().equals(registrDTO.getSecondPassword())) {
             User user = new User();
 
-            if (isValidEmailAddress(email)) {
-                user.setEmail(email);
-                user.setFirstName(firstName);
-                user.setSecondName(secondName);
-                user.setPassword(firstPass);
+            if (isValidEmailAddress(registrDTO.getEmail())) {
+                user.setEmail(registrDTO.getEmail());
+                user.setFirstName(registrDTO.getFirstName());
+                user.setSecondName(registrDTO.getSecondName());
+                user.setPassword(registrDTO.getFirstPassword());
             } else {
                 throw new BadRequestException("Not validate email");
             }
@@ -49,20 +51,18 @@ public class SingInService {
         return m.matches();
     }
 
-    public String login(String email, String password) {
-        String token = "";
-        if (!(userRepository.findUserByEmailAndPassword(email, password).isEmpty())) {
-            List<User> users = userRepository.findUserByEmailAndPassword(email, password);
+    public TokenDTO login(RequestLoginDTO loginDTO) {
+        if (!(userRepository.findUserByEmailAndPassword(loginDTO.getEmail(), loginDTO.getPassword()).isEmpty())) {
+            List<User> users = userRepository.findUserByEmailAndPassword(loginDTO.getEmail(), loginDTO.getPassword());
             User user = users.get(0);
-            if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
+            if (user.getEmail().equals(loginDTO.getEmail()) && user.getPassword().equals(loginDTO.getPassword())) {
                 Long userId = user.getId();
-                token = convertService.convertToBase64(userId);
+                return convertService.convertToBase64(userId);
             } else {
                 throw new BadRequestException("Email or password isn't validate");
             }
         }else {
             throw new BadRequestException("Email or password isn't validate");
         }
-        return token;
     }
 }

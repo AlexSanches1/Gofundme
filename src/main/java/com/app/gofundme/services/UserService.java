@@ -1,7 +1,7 @@
 package com.app.gofundme.services;
 
 import com.app.gofundme.models.User;
-import com.app.gofundme.models.dto.UserInfoDTO;
+import com.app.gofundme.controllers.dto.UserInfoDTO;
 import com.app.gofundme.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
