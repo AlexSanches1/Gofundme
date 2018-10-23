@@ -27,6 +27,6 @@ public class ProjectFullInfoDTO {
 
     private Integer participantsCount;
 
-    private List<ContributorListDTO> contributors;
+    private List<ContributorDTO> contributors;
 
 }

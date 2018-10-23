@@ -23,6 +23,10 @@ public class Project {
 
     private String title;
 
+    private Double goal;
+
+    private Integer participantsCount;
+
     private String shortDescription;
 
     private Double currentSum;
