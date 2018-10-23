@@ -2,7 +2,6 @@ package com.app.gofundme.models;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.context.annotation.Configuration;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -36,9 +35,19 @@ public class Project {
     private Date endDate;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @Column(name = "history_id")
+    @JoinColumn(name = "history_id")
     private History history;
 
-    private List<User> contributors;
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "project_user",
+            joinColumns = {
+                    @JoinColumn(name = "project_id")
+            },
+            inverseJoinColumns = {
+                    @JoinColumn(name = "user_id")
+            }
+    )
+    private List<User> users;
 
 }

@@ -9,8 +9,6 @@ import com.app.gofundme.utils.DateUtil;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class ConvertService {
 
@@ -69,7 +67,7 @@ public class ConvertService {
         projectFullInfoDTO.setTitle(project.getTitle());
         projectFullInfoDTO.setShortDescription(project.getShortDescription());
         projectFullInfoDTO.setHistory(convertHistoryToDTO(project.getHistory()));
-//TODO   projectFullInfoDTO.setContributors(project.getContributors());
+//TODO   projectFullInfoDTO.setUsers(project.getUsers());
         return projectFullInfoDTO;
     }
 

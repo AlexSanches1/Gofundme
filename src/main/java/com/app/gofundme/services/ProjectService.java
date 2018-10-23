@@ -5,16 +5,14 @@ import com.app.gofundme.controllers.dto.ProjectFullInfoDTO;
 import com.app.gofundme.controllers.dto.ProjectShortDTO;
 import com.app.gofundme.controllers.request_dto.RequestCreateProjectDTO;
 import com.app.gofundme.models.Project;
-import com.app.gofundme.models.User;
 import com.app.gofundme.repositories.ProjectRepository;
-import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-@Data
+@Service
 public class ProjectService {
 
     private ProjectRepository projectRepository;

@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Data
 @Entity
@@ -31,4 +32,7 @@ public class User {
     private String image;
 
     private Boolean isAdmin;
+
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "users")
+    private List<Project> projects;
 }

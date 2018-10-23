@@ -2,6 +2,7 @@ package com.app.gofundme.controllers;
 
 import com.app.gofundme.controllers.request_dto.RequestCreateProjectDTO;
 import com.app.gofundme.services.ProjectService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,6 +11,7 @@ public class ProjectController {
 
     private ProjectService projectService;
 
+    @Autowired
     public ProjectController(ProjectService projectService) {
         this.projectService = projectService;
     }
