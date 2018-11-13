@@ -5,6 +5,9 @@ import com.app.gofundme.services.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 public class ProjectController {
@@ -16,7 +19,7 @@ public class ProjectController {
         this.projectService = projectService;
     }
 
-    @PostMapping("api/admin/create/project")
+    @PostMapping("api/create/project")
     public ResponseEntity createProjet(@RequestBody RequestCreateProjectDTO requestCreateProjectDTO) {
         return ResponseEntity.ok(projectService.createProject(requestCreateProjectDTO));
     }

@@ -5,14 +5,23 @@ import com.app.gofundme.controllers.request_dto.RequestCreateProjectDTO;
 import com.app.gofundme.models.History;
 import com.app.gofundme.models.Project;
 import com.app.gofundme.models.User;
+import com.app.gofundme.repositories.ResourceRepository;
 import com.app.gofundme.utils.DateUtil;
 import org.apache.commons.codec.binary.Base64;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ConvertService {
 
-    public TokenDTO convertToBase64(Long id) {
+    private ResourceRepository resourceRepository;
+
+    @Autowired
+    public ConvertService(ResourceRepository resourceRepository) {
+        this.resourceRepository = resourceRepository;
+    }
+
+    public TokenDTO convertToBase64ForToken(Long id) {
         TokenDTO dto = new TokenDTO();
         String idString = id.toString();
         byte[] token = Base64.encodeBase64(idString.getBytes());
@@ -20,11 +29,21 @@ public class ConvertService {
         return dto;
     }
 
-    public Long convertFromBase64(String token) {
+    public Long convertFromBase64ForToken(String token) {
         byte[] bytes = Base64.decodeBase64(token.getBytes());
         String idString = new String(bytes);
         Long id = Long.valueOf(idString);
         return id;
+    }
+
+    public String convertToBase64ForResource(byte[] bytes) {
+        byte[] base64 = Base64.encodeBase64(bytes);
+        return new String(base64);
+    }
+
+    public byte[] convertFromBase64ForResource(String name) {
+        byte[] bytes = name.getBytes();
+        return Base64.decodeBase64(bytes);
     }
 
     public UserInfoDTO userConvertToDTO(User user) {
@@ -38,10 +57,11 @@ public class ConvertService {
 
     public ProjectDTO convertProjectToDTO(Project project) {
         ProjectDTO dto = new ProjectDTO();
+        dto.setId(project.getId());
         dto.setTitle(project.getTitle());
-        dto.setImage(project.getImage());
+        dto.setPathToImage(project.getImage());
         dto.setShortDescription(project.getShortDescription());
-        dto.setVideo(project.getVideo());
+        dto.setPathToVideo(project.getVideo());
         dto.setDaysBetween(DateUtil.daysBetween(project.getStartDate(), project.getEndDate()));
         return dto;
     }
@@ -49,8 +69,8 @@ public class ConvertService {
     public ProjectFullInfoDTO convertProjectToFullInfoDTO(Project project) {
         ProjectFullInfoDTO projectFullInfoDTO = new ProjectFullInfoDTO();
         projectFullInfoDTO.setId(project.getId());
-        projectFullInfoDTO.setImage(project.getImage());
-        projectFullInfoDTO.setVideo(project.getVideo());
+        projectFullInfoDTO.setImage(resourceRepository.findByNameInBase64(project.getImage()).get(0).getId());
+        projectFullInfoDTO.setVideo(resourceRepository.findByNameInBase64(project.getVideo()).get(0).getId());
         if (project.getParticipantsCount() == null) {
             projectFullInfoDTO.setParticipantsCount(0);
         } else {
@@ -76,8 +96,6 @@ public class ConvertService {
         project.setEndDate(requestcreateProjectDTO.getEndDate());
         project.setStartDate(requestcreateProjectDTO.getStartDate());
         project.setShortDescription(requestcreateProjectDTO.getShortDescription());
-        project.setVideo(requestcreateProjectDTO.getVideo());
-        project.setImage(requestcreateProjectDTO.getImage());
         project.setTitle(requestcreateProjectDTO.getTitle());
         return project;
     }

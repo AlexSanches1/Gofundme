@@ -24,7 +24,7 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
         String token = request.getHeader("token");
         String url = request.getRequestURI();
         if (url.startsWith("/api/admin/")) {
-            Long userId = convertService.convertFromBase64(token);
+            Long userId = convertService.convertFromBase64ForToken(token);
             User user = userRepository.getOne(userId);
             if (user.getIsAdmin()){
                 return true;

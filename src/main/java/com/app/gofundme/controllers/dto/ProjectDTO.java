@@ -5,9 +5,11 @@ import lombok.Data;
 @Data
 public class ProjectDTO {
 
-    private String image;
+    private Long id;
 
-    private String video;
+    private String pathToImage;
+
+    private String pathToVideo;
 
     private String title;
 

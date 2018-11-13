@@ -16,11 +16,11 @@ import java.util.List;
 public class ProjectService {
 
     private ProjectRepository projectRepository;
-
     private ConvertService convertService;
 
     @Autowired
-    public ProjectService(ProjectRepository projectRepository, ConvertService convertService) {
+    public ProjectService(ProjectRepository projectRepository,
+                          ConvertService convertService) {
         this.projectRepository = projectRepository;
         this.convertService = convertService;
     }

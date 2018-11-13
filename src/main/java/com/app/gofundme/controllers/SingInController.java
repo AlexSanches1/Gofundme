@@ -31,9 +31,4 @@ public class SingInController {
     public ResponseEntity login(@RequestBody RequestLoginDTO loginDTO) {
         return ResponseEntity.ok(singInService.login(loginDTO));
     }
-
-    @GetMapping("api/admin/hello")
-    public String hello() {
-        return "Hello World";
-    }
 }

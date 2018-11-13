@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private UserRepository userRepository;
-
     private ConvertService convertService;
 
     @Autowired

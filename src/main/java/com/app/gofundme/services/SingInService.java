@@ -25,15 +25,15 @@ public class SingInService {
         this.convertService = convertService;
     }
 
-    public void registrationOfUser(RequestRegistrDTO registrDTO) {
-        if (registrDTO.getFirstPassword().equals(registrDTO.getSecondPassword())) {
+    public void registrationOfUser(RequestRegistrDTO registerDTO) {
+        if (registerDTO.getFirstPassword().equals(registerDTO.getSecondPassword())) {
             User user = new User();
 
-            if (isValidEmailAddress(registrDTO.getEmail())) {
-                user.setEmail(registrDTO.getEmail());
-                user.setFirstName(registrDTO.getFirstName());
-                user.setSecondName(registrDTO.getSecondName());
-                user.setPassword(registrDTO.getFirstPassword());
+            if (isValidEmailAddress(registerDTO.getEmail())) {
+                user.setEmail(registerDTO.getEmail());
+                user.setFirstName(registerDTO.getFirstName());
+                user.setSecondName(registerDTO.getSecondName());
+                user.setPassword(registerDTO.getFirstPassword());
             } else {
                 throw new BadRequestException("Not validate email");
             }
@@ -57,7 +57,7 @@ public class SingInService {
             User user = users.get(0);
             if (user.getEmail().equals(loginDTO.getEmail()) && user.getPassword().equals(loginDTO.getPassword())) {
                 Long userId = user.getId();
-                return convertService.convertToBase64(userId);
+                return convertService.convertToBase64ForToken(userId);
             } else {
                 throw new BadRequestException("Email or password isn't validate");
             }

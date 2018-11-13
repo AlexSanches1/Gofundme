@@ -9,9 +9,9 @@ public class ProjectFullInfoDTO {
 
     private Long id;
 
-    private String image;
+    private Long image;
 
-    private String video;
+    private Long video;
 
     private String title;
 
